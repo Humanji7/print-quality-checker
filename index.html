@@ -46,6 +46,53 @@
 
 
     a { color: inherit; }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .site-nav {
+      display: flex;
+      gap: 20px;
+      font-weight: 600;
+    }
+
+    .site-nav a {
+      text-decoration: none;
+      color: var(--muted);
+      transition: color .15s;
+    }
+
+    .site-nav a:hover {
+      color: var(--ink);
+    }
+
+    .breadcrumbs {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumbs a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .breadcrumbs a:hover {
+      text-decoration: underline;
+    }
+
+    .breadcrumbs span {
+      margin: 0 6px;
+      opacity: 0.5;
+    }
+
     .wrap {
       width: min(1180px, calc(100% - 26px));
       margin: 0 auto;
@@ -63,75 +110,47 @@
     }
 
 
-    .hero-shell {
-      border-radius: var(--radius);
-      padding: 14px;
-      margin-bottom: 18px;
-      background: rgba(255,255,255,.22);
-      border: 1px solid rgba(24,22,18,.14);
-      backdrop-filter: blur(6px);
-      box-shadow: var(--shadow);
+    .hero {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 40px;
+      padding: 32px 0;
     }
 
-    .topbar {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 12px;
+    .hero .eyebrow {
+      margin-bottom: 14px;
     }
 
-    .brand {
-      display: inline-flex;
-      align-items: center;
+    .hero h1 {
+      max-width: none;
+      font-size: clamp(32px, 5vw, 52px);
+      margin: 0 auto 16px;
+    }
+
+    .hero .lead {
+      max-width: 52ch;
+      margin: 0 auto 20px;
+      font-size: 17px;
+    }
+
+    .benefit-pills {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
       gap: 10px;
-      padding: 9px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--line-strong);
-      background: rgba(255,255,255,.45);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .08em;
+      margin-top: 16px;
+    }
+
+    .benefit-pill {
+      font: 600 12px var(--mono);
+      letter-spacing: .06em;
       text-transform: uppercase;
-    }
-
-    .brand-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--signal);
-      box-shadow: 0 0 0 2px rgba(17,75,66,.15);
-      flex: 0 0 auto;
-    }
-
-    .tagline {
-      justify-self: end;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--muted);
-      border: 1px dashed var(--line-strong);
-      padding: 8px 10px;
+      color: var(--signal);
+      border: 1px solid rgba(17,75,66,0.2);
+      background: rgba(17,75,66,0.04);
       border-radius: 999px;
-      background: rgba(255,255,255,.34);
+      padding: 6px 14px;
     }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 14px;
-      align-items: start;
-    }
-
-    .hero-copy {
-      padding: 18px 18px 16px;
-      border-radius: var(--radius);
-      position: relative;
-    }
-
-    .hero-copy.frame {
-      background: rgba(255,255,255,0.7);
-    }
-
 
     .eyebrow {
       font-family: var(--mono);
@@ -157,13 +176,6 @@
       font-size: 16px;
       color: #2f2a23;
       max-width: 58ch;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 14px;
     }
 
     .btn {
@@ -198,128 +210,11 @@
       color: #7f2711;
     }
 
-    .micro-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 8px;
-    }
-
-    .micro-card {
-      border-radius: 12px;
-      padding: 10px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.36);
-    }
-
-    .micro-card b {
-      display: block;
-      font-family: var(--mono);
-      font-size: 16px;
-      margin-bottom: 2px;
-      color: var(--signal);
-    }
-
-    .micro-card span {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .hero-side {
-      display: grid;
-      gap: 10px;
-    }
-
-    .hero-note,
-    .scoreboard,
     .panel,
     .faq,
     .tape-note {
       border-radius: var(--radius);
     }
-
-    .hero-note {
-      padding: 14px;
-    }
-
-    .hero-note h2 {
-      margin: 0 0 8px;
-      font-size: 14px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-family: var(--mono);
-      color: var(--muted);
-    }
-
-    .hero-note ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 8px;
-    }
-
-    .hero-note li {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px 11px;
-      background: rgba(255,255,255,.34);
-      font-size: 13px;
-      color: #2f2a23;
-    }
-
-    .hero-note strong { color: var(--ink); }
-
-    .scoreboard {
-      padding: 14px;
-      display: grid;
-      gap: 10px;
-      background:
-        linear-gradient(180deg, rgba(17,75,66,.94), rgba(13,56,49,.92));
-      color: #efe7d3;
-      border: 1px solid rgba(17,75,66,.95);
-      box-shadow: 0 18px 36px rgba(17,75,66,.2);
-      position: relative;
-      overflow: hidden;
-    }
-
-
-    .scoreboard .label {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: .14em;
-      opacity: .82;
-      text-transform: uppercase;
-    }
-
-    .scoreboard .value {
-      font-family: var(--display);
-      font-size: 28px;
-      line-height: .95;
-      max-width: 16ch;
-    }
-
-    .score-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 8px;
-    }
-
-    .score-grid .tile {
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: 12px;
-      padding: 9px;
-      background: rgba(255,255,255,.05);
-    }
-
-    .score-grid .tile b {
-      display: block;
-      font-family: var(--mono);
-      font-size: 12px;
-      margin-bottom: 3px;
-      color: #c9f0e8;
-    }
-
-    .score-grid .tile span { font-size: 12px; color: rgba(239,231,211,.88); }
 
     .main-grid {
       display: grid;
@@ -835,53 +730,32 @@
 </head>
 <body>
   <main class="wrap">
-    <section class="hero-shell animate-in d1" aria-label="Hero">
-      <div class="topbar">
-        <div class="brand"><span class="brand-dot" aria-hidden="true"></span> PRINTABLE QUALITY CHECKER</div>
-        <div class="tagline">Free online DPI, print size, and aspect ratio checker</div>
-      </div>
+    <header class="site-header">
+      <nav class="site-nav">
+        <a href="#">Studio</a>
+        <a href="#">Features</a>
+        <a href="#">Tools</a>
+      </nav>
+    </header>
 
-      <div class="hero-grid">
-        <section class="hero-copy frame animate-in d2">
-          <div class="eyebrow">High-intent creator utility for Etsy printables & POD</div>
-          <h1>Printable Quality Checker</h1>
-          <p class="lead">
-            A focused entry-point page for sellers asking one urgent question before upload: <strong>is this image sell-ready at this print size?</strong>
-            It delivers a verdict in seconds, then routes users into edit, upscale, or template flows.
-          </p>
-          <div class="hero-actions">
-            <a class="btn primary" href="#calculator">Check a file</a>
-            <button class="btn secondary" id="copyShareBtn" type="button">Copy result link</button>
-            <button class="btn" id="ctaStudioBtn" type="button">Continue to editor</button>
-          </div>
-          <div class="micro-grid" aria-label="Tool highlights">
-            <div class="micro-card"><b>Fast verdict</b><span>Check print readiness in seconds</span></div>
-            <div class="micro-card"><b>Preset sizes</b><span>A4, A3, wall art and card formats</span></div>
-            <div class="micro-card"><b>Shareable link</b><span>Send exact settings and result state</span></div>
-          </div>
-        </section>
+    <div class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="#">Home</a><span>/</span>
+      <a href="#">Tools</a><span>/</span>
+      Printable Quality Checker
+    </div>
 
-        <div class="hero-side animate-in d3">
-          <section class="scoreboard">
-            <div class="label">What You Get</div>
-            <div class="value">A clear print-quality verdict before you publish, print, or send a file to a customer.</div>
-            <div class="score-grid">
-              <div class="tile"><b>DPI</b><span>Actual quality at target size</span></div>
-              <div class="tile"><b>MAX SIZE</b><span>Safe print limit by threshold</span></div>
-              <div class="tile"><b>RATIO</b><span>Crop / padding risk warning</span></div>
-            </div>
-          </section>
-
-          <section class="hero-note frame">
-            <h2>Best For</h2>
-            <ul>
-              <li><strong>Etsy printables:</strong> confirm a file is sharp enough before listing multiple size variants.</li>
-              <li><strong>Print-on-demand:</strong> validate artwork before uploading to a product template.</li>
-              <li><strong>Local print shops:</strong> check expected output quality before export and delivery.</li>
-              <li><strong>Creative teams:</strong> share exact settings with a link and align on print constraints.</li>
-            </ul>
-          </section>
-        </div>
+    <section class="hero">
+      <div class="eyebrow">Free online tool</div>
+      <h1>Check Your Print Quality Before You Sell</h1>
+      <p class="lead">
+        Upload your image and instantly see if it's sharp enough to print at the size you need.
+        Get DPI, max print size, and crop warnings — so you list with confidence.
+      </p>
+      <a class="btn primary" href="#tool">Check your image</a>
+      <div class="benefit-pills">
+        <span class="benefit-pill">Instant result</span>
+        <span class="benefit-pill">No sign-up</span>
+        <span class="benefit-pill">100% free</span>
       </div>
     </section>
 
