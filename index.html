@@ -9,20 +9,20 @@
   <meta property="og:title" content="Etsy & POD Printable Quality Checker (DPI) | Free Online Tool" />
   <meta property="og:description" content="Check printable image quality before you publish. DPI, max print size, aspect ratio fit, and next-step recommendations." />
   <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#f1ebdc" />
+  <meta name="theme-color" content="#faf8f5" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600;6..96,700&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --paper: #efe6d3;
-      --paper-2: #f7f1e4;
+      --paper: #faf8f5;
+      --paper-2: #ffffff;
       --ink: #181612;
-      --muted: #5f584c;
-      --line: rgba(24, 22, 18, 0.16);
-      --line-strong: rgba(24, 22, 18, 0.3);
-      --panel: rgba(247, 241, 228, 0.8);
-      --shadow: 0 12px 40px rgba(53, 42, 25, 0.13);
+      --muted: #4a4438;
+      --line: rgba(24, 22, 18, 0.10);
+      --line-strong: rgba(24, 22, 18, 0.18);
+      --panel: rgba(255, 255, 255, 0.85);
+      --shadow: 0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
       --stamp: #e04d2d;
       --signal: #114b42;
       --signal-soft: #1f776a;
@@ -30,7 +30,7 @@
       --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
       --sans: 'IBM Plex Sans Condensed', system-ui, sans-serif;
       --display: 'Bodoni Moda', Georgia, serif;
-      --radius: 18px;
+      --radius: 12px;
     }
 
     * { box-sizing: border-box; }
@@ -38,10 +38,7 @@
     body {
       font-family: var(--sans);
       color: var(--ink);
-      background:
-        radial-gradient(1000px 450px at 85% -10%, rgba(224,77,45,.12), transparent 60%),
-        radial-gradient(800px 400px at -10% 20%, rgba(17,75,66,.10), transparent 62%),
-        linear-gradient(180deg, var(--paper-2), var(--paper));
+      background: var(--paper);
       min-height: 100vh;
       line-height: 1.35;
       letter-spacing: .005em;
