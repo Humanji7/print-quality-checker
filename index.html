@@ -1,0 +1,1523 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Etsy & POD Printable Quality Checker (DPI) | Free Online Tool</title>
+  <meta name="description" content="Check if an image is sell-ready for Etsy printables and print-on-demand. Calculate DPI, max print size, aspect ratio fit, and next-step recommendations in seconds." />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Etsy & POD Printable Quality Checker (DPI) | Free Online Tool" />
+  <meta property="og:description" content="Check printable image quality before you publish. DPI, max print size, aspect ratio fit, and next-step recommendations." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#f1ebdc" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600;6..96,700&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #efe6d3;
+      --paper-2: #f7f1e4;
+      --ink: #181612;
+      --muted: #5f584c;
+      --line: rgba(24, 22, 18, 0.16);
+      --line-strong: rgba(24, 22, 18, 0.3);
+      --panel: rgba(247, 241, 228, 0.8);
+      --shadow: 0 12px 40px rgba(53, 42, 25, 0.13);
+      --stamp: #e04d2d;
+      --signal: #114b42;
+      --signal-soft: #1f776a;
+      --warn: #8f2f47;
+      --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      --sans: 'IBM Plex Sans Condensed', system-ui, sans-serif;
+      --display: 'Bodoni Moda', Georgia, serif;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans);
+      color: var(--ink);
+      background:
+        radial-gradient(1000px 450px at 85% -10%, rgba(224,77,45,.12), transparent 60%),
+        radial-gradient(800px 400px at -10% 20%, rgba(17,75,66,.10), transparent 62%),
+        linear-gradient(180deg, var(--paper-2), var(--paper));
+      min-height: 100vh;
+      line-height: 1.35;
+      letter-spacing: .005em;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      opacity: .07;
+      background-image:
+        linear-gradient(rgba(24,22,18,.35) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(24,22,18,.35) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(circle at 30% 18%, #000 20%, transparent 75%);
+    }
+
+    body::after {
+      opacity: .06;
+      background-image: radial-gradient(#000 0.6px, transparent 0.7px);
+      background-size: 5px 5px;
+      mix-blend-mode: multiply;
+    }
+
+    a { color: inherit; }
+    .wrap {
+      width: min(1180px, calc(100% - 26px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      padding: 14px 0 30px;
+    }
+
+    .frame {
+      border: 1px solid var(--line-strong);
+      background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.1));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: clip;
+    }
+
+    .frame::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px dashed rgba(24,22,18,.1);
+      pointer-events: none;
+    }
+
+    .hero-shell {
+      border-radius: 22px;
+      padding: 14px;
+      margin-bottom: 18px;
+      background: rgba(255,255,255,.22);
+      border: 1px solid rgba(24,22,18,.14);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 18px 48px rgba(45, 34, 18, 0.08);
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,.45);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--signal);
+      box-shadow: 0 0 0 2px rgba(17,75,66,.15);
+      flex: 0 0 auto;
+    }
+
+    .tagline {
+      justify-self: end;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      border: 1px dashed var(--line-strong);
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.34);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .hero-copy {
+      padding: 18px 18px 16px;
+      border-radius: 18px;
+      position: relative;
+    }
+
+    .hero-copy.frame {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.32)),
+        linear-gradient(135deg, rgba(17,75,66,.04), rgba(224,77,45,.04));
+    }
+
+    .hero-copy::after {
+      content: "FREE TOOL";
+      position: absolute;
+      top: 14px;
+      right: -34px;
+      transform: rotate(14deg);
+      color: #fff8ef;
+      background: var(--stamp);
+      border: 1px solid rgba(0,0,0,.12);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      padding: 5px 12px;
+      box-shadow: 0 8px 20px rgba(224,77,45,.25);
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: .14em;
+      color: var(--signal);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: .92;
+      letter-spacing: -.02em;
+      max-width: 12ch;
+    }
+
+    .lead {
+      margin: 14px 0 16px;
+      font-size: 16px;
+      color: #2f2a23;
+      max-width: 58ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,.5);
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 11px 13px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      box-shadow: 0 2px 0 rgba(24,22,18,.08);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn:focus-visible { outline: 3px solid rgba(17,75,66,.25); outline-offset: 2px; }
+    .btn.primary {
+      background: linear-gradient(180deg, rgba(17,75,66,.92), rgba(17,75,66,.78));
+      color: #f6f2e7;
+      border-color: rgba(17,75,66,.92);
+      box-shadow: 0 9px 22px rgba(17,75,66,.18);
+    }
+    .btn.secondary {
+      background: linear-gradient(180deg, rgba(224,77,45,.12), rgba(224,77,45,.07));
+      border-color: rgba(224,77,45,.35);
+      color: #7f2711;
+    }
+
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 8px;
+    }
+
+    .micro-card {
+      border-radius: 12px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.36);
+    }
+
+    .micro-card b {
+      display: block;
+      font-family: var(--mono);
+      font-size: 16px;
+      margin-bottom: 2px;
+      color: var(--signal);
+    }
+
+    .micro-card span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 10px;
+    }
+
+    .hero-note,
+    .scoreboard,
+    .panel,
+    .faq,
+    .tape-note {
+      border-radius: 18px;
+    }
+
+    .hero-note {
+      padding: 14px;
+    }
+
+    .hero-note h2 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-family: var(--mono);
+      color: var(--muted);
+    }
+
+    .hero-note ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .hero-note li {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 11px;
+      background: rgba(255,255,255,.34);
+      font-size: 13px;
+      color: #2f2a23;
+    }
+
+    .hero-note strong { color: var(--ink); }
+
+    .scoreboard {
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      background:
+        linear-gradient(180deg, rgba(17,75,66,.94), rgba(13,56,49,.92));
+      color: #efe7d3;
+      border: 1px solid rgba(17,75,66,.95);
+      box-shadow: 0 18px 36px rgba(17,75,66,.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scoreboard::after {
+      content: "";
+      position: absolute;
+      inset: -30% auto auto -10%;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .scoreboard .label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .14em;
+      opacity: .82;
+      text-transform: uppercase;
+    }
+
+    .scoreboard .value {
+      font-family: var(--display);
+      font-size: 28px;
+      line-height: .95;
+      max-width: 16ch;
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 8px;
+    }
+
+    .score-grid .tile {
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 12px;
+      padding: 9px;
+      background: rgba(255,255,255,.05);
+    }
+
+    .score-grid .tile b {
+      display: block;
+      font-family: var(--mono);
+      font-size: 12px;
+      margin-bottom: 3px;
+      color: #c9f0e8;
+    }
+
+    .score-grid .tile span { font-size: 12px; color: rgba(239,231,211,.88); }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.02fr .98fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,.34);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      position: relative;
+      overflow: clip;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--signal), rgba(17,75,66,.3), transparent 65%);
+      opacity: .7;
+    }
+
+    .panel h3 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-family: var(--mono);
+      color: #3d372d;
+    }
+
+    .calc-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 8px;
+    }
+
+    .calc-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status-chip {
+      border-radius: 999px;
+      border: 1px solid rgba(224,77,45,.35);
+      background: rgba(224,77,45,.08);
+      color: #802a15;
+      font-size: 12px;
+      padding: 6px 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .calculator {
+      display: grid;
+      gap: 12px;
+    }
+
+    .subhead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding-top: 2px;
+    }
+
+    .subhead span {
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--muted);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .row.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+
+    label {
+      display: grid;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-family: var(--mono);
+    }
+
+    input,
+    select {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,.55);
+      color: var(--ink);
+      padding: 11px 12px;
+      font: 600 15px var(--sans);
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+    }
+
+    input:focus,
+    select:focus {
+      border-color: rgba(17,75,66,.45);
+      box-shadow: 0 0 0 3px rgba(17,75,66,.12);
+    }
+
+    .upload-card {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.44);
+      border-radius: 14px;
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .upload-drop {
+      border: 1px dashed var(--line-strong);
+      border-radius: 12px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,.28));
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      transition: border-color .15s ease, background .15s ease, transform .15s ease;
+    }
+
+    .upload-drop.dragover {
+      border-color: rgba(17,75,66,.45);
+      background: rgba(17,75,66,.06);
+      transform: translateY(-1px);
+    }
+
+    .upload-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .upload-copy {
+      font-size: 13px;
+      color: #312b22;
+    }
+
+    .upload-copy strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .upload-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 8px;
+    }
+
+    .upload-stat {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255,255,255,.32);
+      padding: 8px;
+    }
+
+    .upload-stat small {
+      display: block;
+      font: 600 10px var(--mono);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 2px;
+    }
+
+    .upload-stat b {
+      display: block;
+      font-size: 13px;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+    }
+
+    .preset-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,.45);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font: 700 12px var(--mono);
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+
+    .chip:hover { transform: translateY(-1px); }
+    .chip.active {
+      background: rgba(17,75,66,.1);
+      border-color: rgba(17,75,66,.35);
+      color: var(--signal);
+    }
+
+    .results {
+      display: grid;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .result-box {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.45);
+      border-radius: 14px;
+      padding: 10px 11px;
+    }
+
+    .result-box small {
+      display: block;
+      color: var(--muted);
+      font: 600 11px var(--mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .result-box b {
+      display: block;
+      font-size: 24px;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+    }
+
+    .quality {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.45);
+      border-radius: 14px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .quality-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(24,22,18,.08);
+      overflow: hidden;
+      border: 1px solid rgba(24,22,18,.08);
+    }
+
+    .quality-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #8f2f47 0%, #d68d21 47%, #156d5f 100%);
+      transition: width .22s ease;
+    }
+
+    .quality-text {
+      font: 700 12px var(--mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      min-width: 130px;
+      text-align: right;
+      color: #2f2a23;
+    }
+
+    .note,
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .warning,
+    .success {
+      border-radius: 12px;
+      padding: 10px 11px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .warning {
+      border: 1px solid rgba(143,47,71,.25);
+      background: rgba(143,47,71,.06);
+      color: #6f2139;
+    }
+
+    .success {
+      border: 1px solid rgba(17,75,66,.25);
+      background: rgba(17,75,66,.06);
+      color: #0f4c43;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .ops-board {
+      display: grid;
+      gap: 10px;
+    }
+
+    .ops-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.4);
+      padding: 11px;
+      position: relative;
+    }
+
+    .ops-item::before {
+      content: attr(data-no);
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font: 600 11px var(--mono);
+      color: rgba(24,22,18,.38);
+      letter-spacing: .08em;
+    }
+
+    .ops-item b {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .ops-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .ledger {
+      border: 1px solid var(--line-strong);
+      border-radius: 16px;
+      background: rgba(255,255,255,.42);
+      overflow: hidden;
+    }
+
+    .ledger-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 8px;
+      padding: 10px 12px;
+      border-top: 1px solid var(--line);
+      align-items: start;
+    }
+
+    .ledger-row:first-child { border-top: 0; }
+
+    .ledger-row .k {
+      font: 700 11px var(--mono);
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .ledger-row .v {
+      font-size: 13px;
+      color: #2e2923;
+    }
+
+    .tape-note {
+      padding: 14px;
+      border: 1px solid var(--line-strong);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.28));
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+
+    .tape-note::before,
+    .tape-note::after {
+      content: "";
+      position: absolute;
+      width: 72px;
+      height: 18px;
+      background: rgba(224,77,45,.15);
+      border: 1px solid rgba(224,77,45,.18);
+      top: -8px;
+      transform: rotate(-7deg);
+    }
+
+    .tape-note::before { left: 18px; }
+    .tape-note::after {
+      right: 16px;
+      transform: rotate(7deg);
+      background: rgba(17,75,66,.12);
+      border-color: rgba(17,75,66,.2);
+    }
+
+    .tape-note h3 { margin-bottom: 8px; }
+    .tape-note p { margin: 0; color: #302a22; font-size: 13px; }
+
+    .faq {
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,.34);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .faq details {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,.42);
+      padding: 10px 11px;
+    }
+
+    .faq details + details { margin-top: 8px; }
+
+    .faq summary {
+      cursor: pointer;
+      font: 700 13px var(--sans);
+      letter-spacing: .02em;
+    }
+
+    .faq p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer {
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,.34);
+      padding: 12px 14px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+      color: #3b352c;
+      box-shadow: var(--shadow);
+    }
+
+    #eventFeed {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      max-width: 520px;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .animate-in {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: rise .6s cubic-bezier(.2,.7,.15,1) forwards;
+    }
+
+    .d1 { animation-delay: .05s; }
+    .d2 { animation-delay: .12s; }
+    .d3 { animation-delay: .2s; }
+    .d4 { animation-delay: .28s; }
+
+    @keyframes rise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .main-grid { grid-template-columns: 1fr; }
+      .micro-grid,
+      .score-grid { grid-template-columns: 1fr; }
+      .hero-copy::after {
+        right: 10px;
+        top: 10px;
+        transform: rotate(10deg) scale(.9);
+      }
+      .footer { grid-template-columns: 1fr; }
+      #eventFeed { text-align: left; }
+    }
+
+    @media (max-width: 640px) {
+      .topbar { grid-template-columns: 1fr; }
+      .tagline { justify-self: start; }
+      .row,
+      .row.three,
+      .quality,
+      .ledger-row,
+      .calc-head { grid-template-columns: 1fr; }
+      .upload-meta { grid-template-columns: 1fr; }
+      .quality-text { text-align: left; min-width: 0; }
+      .hero-copy, .panel, .faq, .tape-note, .hero-note, .scoreboard { padding: 12px; }
+      h1 { max-width: 9ch; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; }
+      .animate-in,
+      .quality-fill,
+      .btn,
+      .chip { animation: none !important; transition: none !important; }
+      .animate-in { opacity: 1; transform: none; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Etsy & POD Printable Quality Checker (DPI)",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Any",
+    "description": "Free calculator to estimate print DPI, aspect ratio fit, and max recommended print size for Etsy printables and print-on-demand listings."
+  }
+  </script>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero-shell animate-in d1" aria-label="Hero">
+      <div class="topbar">
+        <div class="brand"><span class="brand-dot" aria-hidden="true"></span> PRINTABLE QUALITY CHECKER</div>
+        <div class="tagline">Free online DPI, print size, and aspect ratio checker</div>
+      </div>
+
+      <div class="hero-grid">
+        <section class="hero-copy frame animate-in d2">
+          <div class="eyebrow">High-intent creator utility for Etsy printables & POD</div>
+          <h1>Printable Quality Checker</h1>
+          <p class="lead">
+            A focused entry-point page for sellers asking one urgent question before upload: <strong>is this image sell-ready at this print size?</strong>
+            It delivers a verdict in seconds, then routes users into edit, upscale, or template flows.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#calculator">Check a file</a>
+            <button class="btn secondary" id="copyShareBtn" type="button">Copy result link</button>
+            <button class="btn" id="ctaStudioBtn" type="button">Continue to editor</button>
+          </div>
+          <div class="micro-grid" aria-label="Tool highlights">
+            <div class="micro-card"><b>Fast verdict</b><span>Check print readiness in seconds</span></div>
+            <div class="micro-card"><b>Preset sizes</b><span>A4, A3, wall art and card formats</span></div>
+            <div class="micro-card"><b>Shareable link</b><span>Send exact settings and result state</span></div>
+          </div>
+        </section>
+
+        <div class="hero-side animate-in d3">
+          <section class="scoreboard">
+            <div class="label">What You Get</div>
+            <div class="value">A clear print-quality verdict before you publish, print, or send a file to a customer.</div>
+            <div class="score-grid">
+              <div class="tile"><b>DPI</b><span>Actual quality at target size</span></div>
+              <div class="tile"><b>MAX SIZE</b><span>Safe print limit by threshold</span></div>
+              <div class="tile"><b>RATIO</b><span>Crop / padding risk warning</span></div>
+            </div>
+          </section>
+
+          <section class="hero-note frame">
+            <h2>Best For</h2>
+            <ul>
+              <li><strong>Etsy printables:</strong> confirm a file is sharp enough before listing multiple size variants.</li>
+              <li><strong>Print-on-demand:</strong> validate artwork before uploading to a product template.</li>
+              <li><strong>Local print shops:</strong> check expected output quality before export and delivery.</li>
+              <li><strong>Creative teams:</strong> share exact settings with a link and align on print constraints.</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="main-grid">
+      <section class="panel animate-in d3" id="calculator" aria-labelledby="calc-title">
+        <div class="calc-head">
+          <div>
+            <h3 id="calc-title">Printable Quality Check</h3>
+            <p>Estimate print DPI, max print size at target quality, and crop risk before publishing a listing.</p>
+          </div>
+          <div class="status-chip">Free tool</div>
+        </div>
+
+        <form class="calculator" id="calcForm" novalidate>
+          <div class="subhead"><span>Source File</span><span class="hint">Upload an image to auto-fill dimensions, or enter values manually</span></div>
+          <div class="upload-card">
+            <div class="upload-drop" id="uploadDropZone" aria-label="Image upload area">
+              <div class="upload-row">
+                <button class="btn" id="pickImageBtn" type="button">Upload image</button>
+                <input id="imageFileInput" type="file" accept="image/*" hidden />
+                <div class="upload-copy">
+                  <strong>Auto-detect dimensions</strong>
+                  Drag and drop an image here, or pick a file to fill width and height automatically.
+                </div>
+              </div>
+            </div>
+            <div class="upload-meta" id="uploadMeta" hidden>
+              <div class="upload-stat">
+                <small>File</small>
+                <b id="uploadFileName">-</b>
+              </div>
+              <div class="upload-stat">
+                <small>Detected</small>
+                <b id="uploadDetectedSize">-</b>
+              </div>
+              <div class="upload-stat">
+                <small>Size</small>
+                <b id="uploadFileBytes">-</b>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <label>
+              Image width (px)
+              <input id="pxWidth" name="pxWidth" type="number" min="1" step="1" inputmode="numeric" value="3600" />
+            </label>
+            <label>
+              Image height (px)
+              <input id="pxHeight" name="pxHeight" type="number" min="1" step="1" inputmode="numeric" value="4800" />
+            </label>
+          </div>
+
+          <div class="subhead"><span>Target Product / Print</span><span class="hint">Choose a preset or type exact dimensions</span></div>
+          <div class="row three">
+            <label>
+              Target width
+              <input id="targetWidth" name="targetWidth" type="number" min="0.1" step="0.1" inputmode="decimal" value="8" />
+            </label>
+            <label>
+              Target height
+              <input id="targetHeight" name="targetHeight" type="number" min="0.1" step="0.1" inputmode="decimal" value="10" />
+            </label>
+            <label>
+              Units
+              <select id="unit" name="unit">
+                <option value="in">Inches</option>
+                <option value="cm">Centimeters</option>
+              </select>
+            </label>
+          </div>
+
+          <div>
+            <div class="preset-grid" id="presetGrid" role="group" aria-label="Print size presets">
+              <button type="button" class="chip" data-preset="8x10">8x10 art print</button>
+              <button type="button" class="chip" data-preset="11x14">11x14 printable</button>
+              <button type="button" class="chip" data-preset="12x12">12x12 square</button>
+              <button type="button" class="chip" data-preset="A4">A4</button>
+              <button type="button" class="chip" data-preset="A3">A3</button>
+              <button type="button" class="chip" data-preset="5x7">5x7 greeting card</button>
+            </div>
+          </div>
+
+          <div class="row">
+            <label>
+              Quality threshold (DPI)
+              <select id="qualityTarget" name="qualityTarget">
+                <option value="300">300 (premium print)</option>
+                <option value="240">240 (good print)</option>
+                <option value="150">150 (distance-viewing / large format)</option>
+              </select>
+            </label>
+            <label>
+              Selling context
+              <select id="channel" name="channel">
+                <option value="etsy">Etsy printable listing</option>
+                <option value="pod">Print-on-demand product</option>
+                <option value="local">Local print shop prep</option>
+                <option value="pinterest">Pinterest lead magnet / funnel</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="results" aria-live="polite">
+            <div class="row">
+              <div class="result-box">
+                <small>Actual DPI At Target Size</small>
+                <b id="dpiResult">-</b>
+              </div>
+              <div class="result-box">
+                <small>Max Recommended Size (@ chosen threshold)</small>
+                <b id="maxSizeResult">-</b>
+              </div>
+            </div>
+
+            <div class="quality" aria-label="Quality score">
+              <div class="quality-bar" aria-hidden="true"><div class="quality-fill" id="qualityFill"></div></div>
+              <div class="quality-text" id="qualityText">-</div>
+            </div>
+
+            <div id="aspectWarning" class="warning"></div>
+            <div id="shareSuccess" class="success">Share link copied.</div>
+
+            <div class="result-box">
+              <small>Recommended Next Step</small>
+              <div id="recommendationText" class="note">Enter values to get a recommendation.</div>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <aside class="side-stack animate-in d4" aria-label="Tool details">
+        <section class="panel">
+          <h3>How It Works</h3>
+          <div class="ledger">
+            <div class="ledger-row"><div class="k">1. Add pixels</div><div class="v">Enter the source image width and height in pixels.</div></div>
+            <div class="ledger-row"><div class="k">2. Set target size</div><div class="v">Pick a preset or enter the exact print dimensions in inches or centimeters.</div></div>
+            <div class="ledger-row"><div class="k">3. Choose threshold</div><div class="v">Select a quality target (300/240/150 DPI) based on your print expectations.</div></div>
+            <div class="ledger-row"><div class="k">4. Read verdict</div><div class="v">See DPI, max recommended print size, ratio mismatch warnings, and a next-step recommendation.</div></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>Popular Use Cases</h3>
+          <div class="ops-board">
+            <div class="ops-item" data-no="01"><b>Wall Art Printable Listings</b><p>Test multiple listing sizes (8x10, 11x14, A4, A3) before publishing digital download bundles.</p></div>
+            <div class="ops-item" data-no="02"><b>POD Artwork Validation</b><p>Check if a design can scale to the target product without becoming visibly soft.</p></div>
+            <div class="ops-item" data-no="03"><b>Client File Review</b><p>Quickly answer “can this print at this size?” with a shared result link and suggested next step.</p></div>
+          </div>
+        </section>
+
+        <section class="tape-note">
+          <h3>Related Tools</h3>
+          <p>
+            Pair this with an image upscaler, crop tool, background remover, and mockup editor to move from quality check to publish-ready listing assets.
+          </p>
+        </section>
+
+        <section class="faq">
+          <h3>FAQ</h3>
+          <details open>
+            <summary>What DPI is good for Etsy printables?</summary>
+            <p>300 DPI is a common target for premium printable products. 240 DPI can still be acceptable depending on product expectations and print size.</p>
+          </details>
+          <details>
+            <summary>Why can a file look fine on screen but fail in print?</summary>
+            <p>Screen previews don't reveal print density the same way. A large print can expose low pixel density even if the image looks sharp on a phone or laptop.</p>
+          </details>
+          <details>
+            <summary>Why does aspect ratio mismatch matter for listings?</summary>
+            <p>If the source ratio differs from the target ratio, you'll need cropping or padding. That changes composition and can impact what the buyer receives.</p>
+          </details>
+        </section>
+      </aside>
+    </section>
+
+    <footer class="footer animate-in d4">
+      <div>
+        Free printable quality checker for Etsy sellers, POD creators, and designers. Check DPI, aspect ratio fit, and max print size before you publish.
+      </div>
+      <div id="eventFeed" hidden>Events: <span aria-live="polite">ready</span></div>
+    </footer>
+  </main>
+
+  <script>
+    const els = {
+      form: document.getElementById('calcForm'),
+      pxWidth: document.getElementById('pxWidth'),
+      pxHeight: document.getElementById('pxHeight'),
+      targetWidth: document.getElementById('targetWidth'),
+      targetHeight: document.getElementById('targetHeight'),
+      unit: document.getElementById('unit'),
+      qualityTarget: document.getElementById('qualityTarget'),
+      channel: document.getElementById('channel'),
+      dpiResult: document.getElementById('dpiResult'),
+      maxSizeResult: document.getElementById('maxSizeResult'),
+      qualityFill: document.getElementById('qualityFill'),
+      qualityText: document.getElementById('qualityText'),
+      recommendationText: document.getElementById('recommendationText'),
+      aspectWarning: document.getElementById('aspectWarning'),
+      presetGrid: document.getElementById('presetGrid'),
+      copyShareBtn: document.getElementById('copyShareBtn'),
+      shareSuccess: document.getElementById('shareSuccess'),
+      ctaStudioBtn: document.getElementById('ctaStudioBtn'),
+      eventFeed: document.querySelector('#eventFeed span'),
+      imageFileInput: document.getElementById('imageFileInput'),
+      pickImageBtn: document.getElementById('pickImageBtn'),
+      uploadDropZone: document.getElementById('uploadDropZone'),
+      uploadMeta: document.getElementById('uploadMeta'),
+      uploadFileName: document.getElementById('uploadFileName'),
+      uploadDetectedSize: document.getElementById('uploadDetectedSize'),
+      uploadFileBytes: document.getElementById('uploadFileBytes')
+    };
+
+    const presets = {
+      '8x10': { w: 8, h: 10, unit: 'in' },
+      '11x14': { w: 11, h: 14, unit: 'in' },
+      '12x12': { w: 12, h: 12, unit: 'in' },
+      '5x7': { w: 5, h: 7, unit: 'in' },
+      A4: { w: 21, h: 29.7, unit: 'cm' },
+      A3: { w: 29.7, h: 42, unit: 'cm' }
+    };
+
+    const format = (value, digits = 0) => {
+      if (!Number.isFinite(value)) return '-';
+      return new Intl.NumberFormat(undefined, { maximumFractionDigits: digits, minimumFractionDigits: digits }).format(value);
+    };
+
+    function toInches(value, unit) {
+      return unit === 'cm' ? value / 2.54 : value;
+    }
+
+    function formatBytes(bytes) {
+      if (!Number.isFinite(bytes) || bytes < 0) return '-';
+      if (bytes < 1024) return `${bytes} B`;
+      const units = ['KB', 'MB', 'GB'];
+      let value = bytes / 1024;
+      let idx = 0;
+      while (value >= 1024 && idx < units.length - 1) {
+        value /= 1024;
+        idx += 1;
+      }
+      return `${format(value, value < 10 ? 1 : 0)} ${units[idx]}`;
+    }
+
+    function track(eventName, payload = {}) {
+      const packet = { event: eventName, ts: Date.now(), ...payload };
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(packet);
+      if (typeof window.plausible === 'function') {
+        window.plausible(eventName, { props: payload });
+      }
+      els.eventFeed.textContent = `${eventName}${Object.keys(payload).length ? ' • ' + JSON.stringify(payload) : ''}`;
+    }
+
+    let shareTimeout;
+    function flashShareCopied() {
+      clearTimeout(shareTimeout);
+      els.shareSuccess.style.display = 'block';
+      shareTimeout = setTimeout(() => {
+        els.shareSuccess.style.display = 'none';
+      }, 1800);
+    }
+
+    function flashNotice(message) {
+      const defaultText = 'Share link copied.';
+      els.shareSuccess.textContent = message;
+      flashShareCopied();
+      setTimeout(() => {
+        els.shareSuccess.textContent = defaultText;
+      }, 1800);
+    }
+
+    function qualityBand(dpi) {
+      if (dpi >= 300) return { label: 'Excellent print', pct: 100 };
+      if (dpi >= 240) return { label: 'Good print', pct: 82 };
+      if (dpi >= 180) return { label: 'Usable / medium distance', pct: 62 };
+      if (dpi >= 120) return { label: 'Low detail', pct: 42 };
+      return { label: 'Too soft for most prints', pct: 20 };
+    }
+
+    function recommendationFor({ dpi, channel, targetQuality, ratioDiffPct }) {
+      const cropHint = ratioDiffPct > 1.5 ? ' Ratios differ, so expect crop/padding.' : '';
+      if (dpi >= targetQuality) {
+        const channelTail = {
+          etsy: ' Mark this size as sell-ready in your listing and add a size chart preview image.',
+          pinterest: ' Use this result in a lead magnet and route traffic to your printable bundle page.',
+          local: ' Export a print-ready file and confirm bleed + margin requirements with the print shop.',
+          pod: ' Match the POD template size and confirm safe area before publishing.'
+        }[channel] || '';
+        return `This image looks strong for the selected size.${channelTail}${cropHint}`;
+      }
+      if (dpi >= 180) {
+        return `Borderline for premium quality. Offer a smaller variant or route into an upscale/edit workflow before publishing.${cropHint}`;
+      }
+      return `Likely too soft at this size. Reduce dimensions or send the user to an enhancer/upscaler flow first.${cropHint}`;
+    }
+
+    function parsePositive(el) {
+      const n = Number(el.value);
+      return Number.isFinite(n) && n > 0 ? n : NaN;
+    }
+
+    function clearPresetSelection() {
+      document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('active'));
+    }
+
+    function setUploadMeta(file, width, height) {
+      els.uploadMeta.hidden = false;
+      els.uploadFileName.textContent = file?.name || '-';
+      els.uploadDetectedSize.textContent = Number.isFinite(width) && Number.isFinite(height) ? `${format(width, 0)} × ${format(height, 0)} px` : '-';
+      els.uploadFileBytes.textContent = formatBytes(file?.size ?? NaN);
+    }
+
+    function readImageDimensions(file) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          const width = img.naturalWidth || img.width;
+          const height = img.naturalHeight || img.height;
+          URL.revokeObjectURL(url);
+          if (!width || !height) {
+            reject(new Error('Could not detect image dimensions'));
+            return;
+          }
+          resolve({ width, height });
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error('Unsupported image file'));
+        };
+        img.src = url;
+      });
+    }
+
+    async function handleImageFile(file) {
+      if (!file) return;
+      if (file.type && !file.type.startsWith('image/')) {
+        flashNotice('Please upload an image file.');
+        return;
+      }
+
+      try {
+        const dims = await readImageDimensions(file);
+        els.pxWidth.value = String(dims.width);
+        els.pxHeight.value = String(dims.height);
+        clearPresetSelection();
+        setUploadMeta(file, dims.width, dims.height);
+        updateCalculator({ trackEvent: true });
+        track('image_upload', {
+          mime: file.type || 'unknown',
+          width_bucket: dims.width >= 4000 ? '4k+' : dims.width >= 2000 ? '2k+' : 'small'
+        });
+      } catch (err) {
+        flashNotice('Could not read this image file.');
+      }
+    }
+
+    function buildShareUrl() {
+      const params = new URLSearchParams({
+        pw: els.pxWidth.value,
+        ph: els.pxHeight.value,
+        tw: els.targetWidth.value,
+        th: els.targetHeight.value,
+        u: els.unit.value,
+        q: els.qualityTarget.value,
+        ch: els.channel.value
+      });
+      return `${location.origin}${location.pathname}?${params.toString()}#calculator`;
+    }
+
+    function syncUrlState() {
+      const url = new URL(location.href);
+      url.searchParams.set('pw', els.pxWidth.value);
+      url.searchParams.set('ph', els.pxHeight.value);
+      url.searchParams.set('tw', els.targetWidth.value);
+      url.searchParams.set('th', els.targetHeight.value);
+      url.searchParams.set('u', els.unit.value);
+      url.searchParams.set('q', els.qualityTarget.value);
+      url.searchParams.set('ch', els.channel.value);
+      history.replaceState(null, '', `${url.pathname}?${url.searchParams.toString()}${location.hash}`);
+    }
+
+    function applyQueryParams() {
+      const qp = new URLSearchParams(location.search);
+      const map = [
+        ['pw', 'pxWidth'],
+        ['ph', 'pxHeight'],
+        ['tw', 'targetWidth'],
+        ['th', 'targetHeight'],
+        ['u', 'unit'],
+        ['q', 'qualityTarget'],
+        ['ch', 'channel']
+      ];
+      map.forEach(([k, id]) => {
+        const val = qp.get(k);
+        if (val != null && val !== '' && els[id]) {
+          els[id].value = val;
+        }
+      });
+    }
+
+    function updateCalculator({ trackEvent = false } = {}) {
+      const pxW = parsePositive(els.pxWidth);
+      const pxH = parsePositive(els.pxHeight);
+      const targetW = parsePositive(els.targetWidth);
+      const targetH = parsePositive(els.targetHeight);
+      const unit = els.unit.value;
+      const channel = els.channel.value;
+      const targetQuality = Number(els.qualityTarget.value) || 300;
+
+      if (![pxW, pxH, targetW, targetH].every(Number.isFinite)) {
+        els.dpiResult.textContent = '-';
+        els.maxSizeResult.textContent = '-';
+        els.qualityFill.style.width = '0%';
+        els.qualityText.textContent = 'Enter valid values';
+        els.recommendationText.textContent = 'Use positive numbers only.';
+        els.aspectWarning.style.display = 'none';
+        return;
+      }
+
+      const tWIn = toInches(targetW, unit);
+      const tHIn = toInches(targetH, unit);
+      const dpiW = pxW / tWIn;
+      const dpiH = pxH / tHIn;
+      const actualDpi = Math.min(dpiW, dpiH);
+
+      const maxWIn = pxW / targetQuality;
+      const maxHIn = pxH / targetQuality;
+      const maxWOut = unit === 'cm' ? maxWIn * 2.54 : maxWIn;
+      const maxHOut = unit === 'cm' ? maxHIn * 2.54 : maxHIn;
+
+      const srcRatio = pxW / pxH;
+      const targetRatio = tWIn / tHIn;
+      const ratioDiffPct = Math.abs((srcRatio - targetRatio) / targetRatio) * 100;
+
+      els.dpiResult.textContent = `${format(actualDpi, 0)} DPI`;
+      els.maxSizeResult.textContent = `${format(maxWOut, 1)} × ${format(maxHOut, 1)} ${unit}`;
+
+      const band = qualityBand(actualDpi);
+      els.qualityFill.style.width = `${band.pct}%`;
+      els.qualityText.textContent = band.label;
+      els.recommendationText.textContent = recommendationFor({
+        dpi: actualDpi,
+        channel,
+        targetQuality,
+        ratioDiffPct
+      });
+
+      if (ratioDiffPct > 1.5) {
+        els.aspectWarning.textContent = `Aspect ratio mismatch: source (${format(srcRatio, 2)}) vs target (${format(targetRatio, 2)}). Cropping or padding will be needed.`;
+        els.aspectWarning.style.display = 'block';
+      } else {
+        els.aspectWarning.style.display = 'none';
+      }
+
+      syncUrlState();
+
+      if (trackEvent) {
+        track('calculator_update', {
+          dpi_bucket: band.label,
+          unit,
+          channel,
+          target_quality: targetQuality
+        });
+      }
+    }
+
+    async function copyShareLink() {
+      const url = buildShareUrl();
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(url);
+        } else {
+          const temp = document.createElement('textarea');
+          temp.value = url;
+          document.body.append(temp);
+          temp.select();
+          document.execCommand('copy');
+          temp.remove();
+        }
+        flashShareCopied();
+        track('share_link_copy', { source: 'hero_button' });
+      } catch (err) {
+        alert(url);
+      }
+    }
+
+    function setPreset(key, btn) {
+      const preset = presets[key];
+      if (!preset) return;
+      els.targetWidth.value = preset.w;
+      els.targetHeight.value = preset.h;
+      els.unit.value = preset.unit;
+      clearPresetSelection();
+      if (btn) btn.classList.add('active');
+      updateCalculator({ trackEvent: true });
+      track('preset_select', { preset: key });
+    }
+
+    function openWorkflowCta() {
+      const dpiText = els.dpiResult.textContent;
+      const message = `Editor integration is not connected in this build yet. Current result: ${dpiText}.`;
+      flashShareCopied();
+      els.shareSuccess.textContent = message;
+      track('cta_click', { cta: 'creative_workflow', current_dpi: dpiText });
+      setTimeout(() => {
+        els.shareSuccess.textContent = 'Share link copied.';
+      }, 1800);
+    }
+
+    els.form.addEventListener('input', () => updateCalculator({ trackEvent: true }));
+    els.form.addEventListener('change', () => updateCalculator({ trackEvent: true }));
+
+    els.presetGrid.addEventListener('click', (event) => {
+      const btn = event.target.closest('[data-preset]');
+      if (!btn) return;
+      setPreset(btn.dataset.preset, btn);
+    });
+
+    els.pickImageBtn.addEventListener('click', () => {
+      els.imageFileInput.click();
+    });
+
+    els.imageFileInput.addEventListener('change', (event) => {
+      const [file] = event.target.files || [];
+      handleImageFile(file);
+    });
+
+    ['dragenter', 'dragover'].forEach(type => {
+      els.uploadDropZone.addEventListener(type, (event) => {
+        event.preventDefault();
+        els.uploadDropZone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'dragend', 'drop'].forEach(type => {
+      els.uploadDropZone.addEventListener(type, (event) => {
+        event.preventDefault();
+        if (type !== 'drop') els.uploadDropZone.classList.remove('dragover');
+      });
+    });
+
+    els.uploadDropZone.addEventListener('drop', (event) => {
+      els.uploadDropZone.classList.remove('dragover');
+      const [file] = event.dataTransfer?.files || [];
+      handleImageFile(file);
+    });
+
+    els.copyShareBtn.addEventListener('click', copyShareLink);
+    els.ctaStudioBtn.addEventListener('click', openWorkflowCta);
+
+    applyQueryParams();
+    updateCalculator();
+    track('page_view', { app: 'printable_quality_checker' });
+  </script>
+</body>
+</html>
