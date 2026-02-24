@@ -216,11 +216,9 @@
       border-radius: var(--radius);
     }
 
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1.02fr .98fr;
-      gap: 14px;
-      align-items: start;
+    .tool-section {
+      max-width: 680px;
+      margin: 0 auto 48px;
     }
 
     .panel {
@@ -528,6 +526,25 @@
       color: #0f4c43;
     }
 
+    .smart-cta {
+      display: grid;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .smart-cta-btn {
+      justify-self: start;
+    }
+
+    .smart-cta-hint {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .smart-cta-secondary {
+      justify-self: start;
+    }
+
     .side-stack {
       display: grid;
       gap: 12px;
@@ -759,8 +776,8 @@
       </div>
     </section>
 
-    <section class="main-grid">
-      <section class="panel animate-in d3" id="calculator" aria-labelledby="calc-title">
+    <section class="tool-section" id="tool">
+      <div class="panel" id="calculator" aria-labelledby="calc-title">
         <div class="calc-head">
           <div>
             <h3 id="calc-title">Printable Quality Check</h3>
@@ -875,60 +892,24 @@
               <div class="quality-text" id="qualityText">-</div>
             </div>
 
-            <div id="aspectWarning" class="warning"></div>
-            <div id="shareSuccess" class="success">Share link copied.</div>
+            <div id=”aspectWarning” class=”warning”></div>
 
-            <div class="result-box">
+            <div class=”result-box”>
               <small>Recommended Next Step</small>
-              <div id="recommendationText" class="note">Enter values to get a recommendation.</div>
+              <div id=”recommendationText” class=”note”>Enter values to get a recommendation.</div>
             </div>
+
+            <div id=”smartCtaBlock” class=”smart-cta” style=”display:none”>
+              <a id=”smartCtaLink” class=”btn primary smart-cta-btn” href=”#” target=”_blank” rel=”noopener”>-</a>
+              <div id=”smartCtaHint” class=”smart-cta-hint”>-</div>
+              <a id=”smartCtaSecondary” class=”btn smart-cta-secondary” href=”#” target=”_blank” rel=”noopener” style=”display:none”>-</a>
+            </div>
+
+            <button class=”btn” id=”copyShareBtn” type=”button”>Copy result link</button>
+            <div id=”shareSuccess” class=”success”>Share link copied.</div>
           </div>
         </form>
-      </section>
-
-      <aside class="side-stack animate-in d4" aria-label="Tool details">
-        <section class="panel">
-          <h3>How It Works</h3>
-          <div class="ledger">
-            <div class="ledger-row"><div class="k">1. Add pixels</div><div class="v">Enter the source image width and height in pixels.</div></div>
-            <div class="ledger-row"><div class="k">2. Set target size</div><div class="v">Pick a preset or enter the exact print dimensions in inches or centimeters.</div></div>
-            <div class="ledger-row"><div class="k">3. Choose threshold</div><div class="v">Select a quality target (300/240/150 DPI) based on your print expectations.</div></div>
-            <div class="ledger-row"><div class="k">4. Read verdict</div><div class="v">See DPI, max recommended print size, ratio mismatch warnings, and a next-step recommendation.</div></div>
-          </div>
-        </section>
-
-        <section class="panel">
-          <h3>Popular Use Cases</h3>
-          <div class="ops-board">
-            <div class="ops-item" data-no="01"><b>Wall Art Printable Listings</b><p>Test multiple listing sizes (8x10, 11x14, A4, A3) before publishing digital download bundles.</p></div>
-            <div class="ops-item" data-no="02"><b>POD Artwork Validation</b><p>Check if a design can scale to the target product without becoming visibly soft.</p></div>
-            <div class="ops-item" data-no="03"><b>Client File Review</b><p>Quickly answer “can this print at this size?” with a shared result link and suggested next step.</p></div>
-          </div>
-        </section>
-
-        <section class="tape-note">
-          <h3>Related Tools</h3>
-          <p>
-            Pair this with an image upscaler, crop tool, background remover, and mockup editor to move from quality check to publish-ready listing assets.
-          </p>
-        </section>
-
-        <section class="faq">
-          <h3>FAQ</h3>
-          <details open>
-            <summary>What DPI is good for Etsy printables?</summary>
-            <p>300 DPI is a common target for premium printable products. 240 DPI can still be acceptable depending on product expectations and print size.</p>
-          </details>
-          <details>
-            <summary>Why can a file look fine on screen but fail in print?</summary>
-            <p>Screen previews don't reveal print density the same way. A large print can expose low pixel density even if the image looks sharp on a phone or laptop.</p>
-          </details>
-          <details>
-            <summary>Why does aspect ratio mismatch matter for listings?</summary>
-            <p>If the source ratio differs from the target ratio, you'll need cropping or padding. That changes composition and can impact what the buyer receives.</p>
-          </details>
-        </section>
-      </aside>
+      </div>
     </section>
 
     <footer class="footer animate-in d4">
