@@ -1118,8 +1118,10 @@
       presetGrid: document.getElementById('presetGrid'),
       copyShareBtn: document.getElementById('copyShareBtn'),
       shareSuccess: document.getElementById('shareSuccess'),
-      ctaStudioBtn: document.getElementById('ctaStudioBtn'),
-      eventFeed: document.querySelector('#eventFeed span'),
+      smartCtaBlock: document.getElementById('smartCtaBlock'),
+      smartCtaLink: document.getElementById('smartCtaLink'),
+      smartCtaHint: document.getElementById('smartCtaHint'),
+      smartCtaSecondary: document.getElementById('smartCtaSecondary'),
       imageFileInput: document.getElementById('imageFileInput'),
       pickImageBtn: document.getElementById('pickImageBtn'),
       uploadDropZone: document.getElementById('uploadDropZone'),
@@ -1167,7 +1169,6 @@
       if (typeof window.plausible === 'function') {
         window.plausible(eventName, { props: payload });
       }
-      els.eventFeed.textContent = `${eventName}${Object.keys(payload).length ? ' • ' + JSON.stringify(payload) : ''}`;
     }
 
     let shareTimeout;
@@ -1211,6 +1212,34 @@
         return `Borderline for premium quality. Offer a smaller variant or route into an upscale/edit workflow before publishing.${cropHint}`;
       }
       return `Likely too soft at this size. Reduce dimensions or send the user to an enhancer/upscaler flow first.${cropHint}`;
+    }
+
+    function smartCtaFor({ dpi, targetQuality, ratioDiffPct }) {
+      const BASE = 'https://www.creativefabrica.com/studio/features';
+      const result = { label: '', url: '', hint: '', secondary: null };
+
+      if (dpi >= targetQuality) {
+        result.label = 'Create a mockup with this image \u2192';
+        result.url = `${BASE}/mockup-generator/`;
+        result.hint = 'Your image is sharp enough \u2014 ready for mockup';
+      } else if (dpi >= 180) {
+        result.label = 'Upscale to hit target quality \u2192';
+        result.url = `${BASE}/ai-image-upscaler/`;
+        result.hint = 'DPI is borderline \u2014 upscaling may help';
+      } else {
+        result.label = 'Enhance this image first \u2192';
+        result.url = `${BASE}/ai-image-upscaler/`;
+        result.hint = 'Resolution is too low for this size \u2014 try enhancing';
+      }
+
+      if (ratioDiffPct > 1.5) {
+        result.secondary = {
+          label: 'Crop to fit target ratio \u2192',
+          url: `${BASE}/crop-image/`
+        };
+      }
+
+      return result;
     }
 
     function parsePositive(el) {
@@ -1258,6 +1287,10 @@
         return;
       }
 
+      els.pickImageBtn.disabled = true;
+      els.pickImageBtn.textContent = 'Reading...';
+      els.uploadDropZone.setAttribute('aria-busy', 'true');
+
       try {
         const dims = await readImageDimensions(file);
         els.pxWidth.value = String(dims.width);
@@ -1271,6 +1304,10 @@
         });
       } catch (err) {
         flashNotice('Could not read this image file.');
+      } finally {
+        els.pickImageBtn.disabled = false;
+        els.pickImageBtn.textContent = 'Upload image';
+        els.uploadDropZone.removeAttribute('aria-busy');
       }
     }
 
@@ -1372,6 +1409,21 @@
         els.aspectWarning.style.display = 'none';
       }
 
+      // Smart CTA
+      const cta = smartCtaFor({ dpi: actualDpi, targetQuality, ratioDiffPct });
+      els.smartCtaBlock.style.display = 'grid';
+      els.smartCtaLink.textContent = cta.label;
+      els.smartCtaLink.href = cta.url;
+      els.smartCtaHint.textContent = cta.hint;
+
+      if (cta.secondary) {
+        els.smartCtaSecondary.style.display = 'inline-flex';
+        els.smartCtaSecondary.textContent = cta.secondary.label;
+        els.smartCtaSecondary.href = cta.secondary.url;
+      } else {
+        els.smartCtaSecondary.style.display = 'none';
+      }
+
       syncUrlState();
 
       if (trackEvent) {
@@ -1416,17 +1468,6 @@
       track('preset_select', { preset: key });
     }
 
-    function openWorkflowCta() {
-      const dpiText = els.dpiResult.textContent;
-      const message = `Editor integration is not connected in this build yet. Current result: ${dpiText}.`;
-      flashShareCopied();
-      els.shareSuccess.textContent = message;
-      track('cta_click', { cta: 'creative_workflow', current_dpi: dpiText });
-      setTimeout(() => {
-        els.shareSuccess.textContent = 'Share link copied.';
-      }, 1800);
-    }
-
     els.form.addEventListener('input', () => updateCalculator({ trackEvent: true }));
     els.form.addEventListener('change', () => updateCalculator({ trackEvent: true }));
 
@@ -1466,10 +1507,22 @@
     });
 
     els.copyShareBtn.addEventListener('click', copyShareLink);
-    els.ctaStudioBtn.addEventListener('click', openWorkflowCta);
 
     applyQueryParams();
-    updateCalculator();
+
+    // Only run calculator if URL has params (shared link), otherwise show empty state
+    const hasUrlParams = new URLSearchParams(location.search).has('pw');
+    if (hasUrlParams) {
+      updateCalculator();
+    } else {
+      els.dpiResult.textContent = '\u2014';
+      els.maxSizeResult.textContent = '\u2014';
+      els.qualityFill.style.width = '0%';
+      els.qualityText.textContent = 'Waiting for input';
+      els.recommendationText.textContent = 'Upload an image or enter dimensions to check.';
+      els.smartCtaBlock.style.display = 'none';
+    }
+
     track('page_view', { app: 'printable_quality_checker' });
   </script>
 </body>
