@@ -893,7 +893,7 @@
         <form class="calculator" id="calcForm" novalidate>
           <div class="subhead"><span>Source File</span><span class="hint">Upload an image to auto-fill dimensions, or enter values manually</span></div>
           <div class="upload-card">
-            <div class="upload-drop" id="uploadDropZone" aria-label="Image upload area">
+            <div class="upload-drop" id="uploadDropZone" aria-label="Image upload area" tabindex="0" role="button">
               <div class="upload-row">
                 <button class="btn" id="pickImageBtn" type="button">Upload image</button>
                 <input id="imageFileInput" type="file" accept="image/*" hidden />
@@ -950,12 +950,12 @@
 
           <div>
             <div class="preset-grid" id="presetGrid" role="group" aria-label="Print size presets">
-              <button type="button" class="chip" data-preset="8x10">8x10 art print</button>
-              <button type="button" class="chip" data-preset="11x14">11x14 printable</button>
-              <button type="button" class="chip" data-preset="12x12">12x12 square</button>
-              <button type="button" class="chip" data-preset="A4">A4</button>
-              <button type="button" class="chip" data-preset="A3">A3</button>
-              <button type="button" class="chip" data-preset="5x7">5x7 greeting card</button>
+              <button type="button" class="chip" data-preset="8x10" aria-pressed="false">8x10 art print</button>
+              <button type="button" class="chip" data-preset="11x14" aria-pressed="false">11x14 printable</button>
+              <button type="button" class="chip" data-preset="12x12" aria-pressed="false">12x12 square</button>
+              <button type="button" class="chip" data-preset="A4" aria-pressed="false">A4</button>
+              <button type="button" class="chip" data-preset="A3" aria-pressed="false">A3</button>
+              <button type="button" class="chip" data-preset="5x7" aria-pressed="false">5x7 greeting card</button>
             </div>
           </div>
 
@@ -979,7 +979,7 @@
             </label>
           </div>
 
-          <div class="results" aria-live="polite">
+          <div class="results">
             <div class="row">
               <div class="result-box">
                 <small>Actual DPI At Target Size</small>
@@ -998,15 +998,17 @@
 
             <div id=”aspectWarning” class=”warning”></div>
 
-            <div class=”result-box”>
-              <small>Recommended Next Step</small>
-              <div id=”recommendationText” class=”note”>Enter values to get a recommendation.</div>
-            </div>
+            <div id=”verdictArea” aria-live=”polite”>
+              <div class=”result-box”>
+                <small>Recommended Next Step</small>
+                <div id=”recommendationText” class=”note”>Enter values to get a recommendation.</div>
+              </div>
 
-            <div id=”smartCtaBlock” class=”smart-cta” style=”display:none”>
-              <a id=”smartCtaLink” class=”btn primary smart-cta-btn” href=”#” target=”_blank” rel=”noopener”>-</a>
-              <div id=”smartCtaHint” class=”smart-cta-hint”>-</div>
-              <a id=”smartCtaSecondary” class=”btn smart-cta-secondary” href=”#” target=”_blank” rel=”noopener” style=”display:none”>-</a>
+              <div id=”smartCtaBlock” class=”smart-cta” style=”display:none”>
+                <a id=”smartCtaLink” class=”btn primary smart-cta-btn” href=”#” target=”_blank” rel=”noopener”>-</a>
+                <div id=”smartCtaHint” class=”smart-cta-hint”>-</div>
+                <a id=”smartCtaSecondary” class=”btn smart-cta-secondary” href=”#” target=”_blank” rel=”noopener” style=”display:none”>-</a>
+              </div>
             </div>
 
             <button class=”btn” id=”copyShareBtn” type=”button”>Copy result link</button>
@@ -1308,7 +1310,10 @@
     }
 
     function clearPresetSelection() {
-      document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('active'));
+      document.querySelectorAll('.chip').forEach(chip => {
+        chip.classList.remove('active');
+        chip.setAttribute('aria-pressed', 'false');
+      });
     }
 
     function setUploadMeta(file, width, height) {
@@ -1523,7 +1528,10 @@
       els.targetHeight.value = preset.h;
       els.unit.value = preset.unit;
       clearPresetSelection();
-      if (btn) btn.classList.add('active');
+      if (btn) {
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+      }
       updateCalculator({ trackEvent: true });
       track('preset_select', { preset: key });
     }
@@ -1539,6 +1547,13 @@
 
     els.pickImageBtn.addEventListener('click', () => {
       els.imageFileInput.click();
+    });
+
+    els.uploadDropZone.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        els.imageFileInput.click();
+      }
     });
 
     els.imageFileInput.addEventListener('change', (event) => {
