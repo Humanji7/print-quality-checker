@@ -9,9 +9,15 @@
   <meta property="og:title" content="Free Print Quality Checker — DPI Calculator for Etsy & POD" />
   <meta property="og:description" content="Is your image sharp enough to print? Free DPI checker. Upload, pick a size, get instant verdict." />
   <meta property="og:type" content="website" />
-  <link rel="canonical" href="https://www.creativefabrica.com/studio/features/printable-quality-checker/" />
-  <meta property="og:image" content="og-printable-checker.png" />
+  <link rel="canonical" href="https://humanji7.github.io/print-quality-checker/" />
+  <meta property="og:image" content="https://humanji7.github.io/print-quality-checker/og-printable-checker.png" />
+  <meta property="og:url" content="https://humanji7.github.io/print-quality-checker/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Free Print Quality Checker — DPI Calculator for Etsy & POD" />
+  <meta name="twitter:description" content="Is your image sharp enough to print? Free DPI checker. Upload, pick a size, get instant verdict." />
+  <meta name="twitter:image" content="https://humanji7.github.io/print-quality-checker/og-printable-checker.png" />
   <meta name="theme-color" content="#FFFFFF" />
+  <script defer data-domain="humanji7.github.io/print-quality-checker" src="https://plausible.io/js/script.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -621,6 +627,21 @@
 
     .smart-cta-secondary {
       justify-self: start;
+    }
+
+    .share-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .share-btn {
+      font-size: 13px;
+      gap: 6px;
+    }
+
+    .share-btn svg {
+      flex-shrink: 0;
     }
 
     .content-section {
@@ -1331,7 +1352,17 @@
               </div>
             </div>
 
-            <button class="btn" id="copyShareBtn" type="button">Copy result link</button>
+            <div class="share-row">
+              <button class="btn" id="copyShareBtn" type="button">Copy result link</button>
+              <a class="btn share-btn" id="shareX" href="#" target="_blank" rel="noopener" title="Share on X">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                Share
+              </a>
+              <a class="btn share-btn" id="sharePinterest" href="#" target="_blank" rel="noopener" title="Share on Pinterest">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#E60023"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+                Pin
+              </a>
+            </div>
             <div id="shareSuccess" class="success">Share link copied.</div>
           </div>
         </form>
@@ -2067,6 +2098,23 @@
     });
 
     els.copyShareBtn.addEventListener('click', copyShareLink);
+
+    document.getElementById('shareX').addEventListener('click', (e) => {
+      e.preventDefault();
+      const url = buildShareUrl();
+      const text = `Check if your image is sharp enough to print — free DPI calculator`;
+      window.open(`https://x.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+      track('share_social', { platform: 'x' });
+    });
+
+    document.getElementById('sharePinterest').addEventListener('click', (e) => {
+      e.preventDefault();
+      const url = buildShareUrl();
+      const desc = `Free Print Quality Checker — check DPI before you list on Etsy`;
+      const img = `${location.origin}${location.pathname}og-printable-checker.png`;
+      window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&media=${encodeURIComponent(img)}&description=${encodeURIComponent(desc)}`, '_blank', 'noopener');
+      track('share_social', { platform: 'pinterest' });
+    });
 
     applyQueryParams();
 
