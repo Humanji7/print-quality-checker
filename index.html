@@ -743,41 +743,70 @@
       }
     }
 
-    @media (max-width: 980px) {
-      .hero-grid,
-      .main-grid { grid-template-columns: 1fr; }
-      .micro-grid,
-      .score-grid { grid-template-columns: 1fr; }
-      .hero-copy::after {
-        right: 10px;
-        top: 10px;
-        transform: rotate(10deg) scale(.9);
+    @media (max-width: 1024px) {
+      .tools-grid {
+        grid-template-columns: repeat(3, 1fr);
       }
-      .footer { grid-template-columns: 1fr; }
-      #eventFeed { text-align: left; }
+      .cases-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+      .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .site-header {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
     }
 
     @media (max-width: 640px) {
-      .topbar { grid-template-columns: 1fr; }
-      .tagline { justify-self: start; }
+      .hero h1 {
+        font-size: 28px;
+      }
+      .hero .lead {
+        font-size: 15px;
+      }
+      .benefit-pills {
+        gap: 6px;
+      }
+      .benefit-pill {
+        font-size: 11px;
+        padding: 5px 10px;
+      }
       .row,
       .row.three,
       .quality,
-      .ledger-row,
-      .calc-head { grid-template-columns: 1fr; }
-      .upload-meta { grid-template-columns: 1fr; }
-      .quality-text { text-align: left; min-width: 0; }
-      .hero-copy, .panel, .faq, .tape-note, .hero-note, .scoreboard { padding: 12px; }
-      h1 { max-width: 9ch; }
+      .calc-head {
+        grid-template-columns: 1fr;
+      }
+      .upload-meta {
+        grid-template-columns: 1fr;
+      }
+      .quality-text {
+        text-align: left;
+        min-width: 0;
+      }
+      .footer {
+        grid-template-columns: 1fr;
+      }
+      .footer .site-nav {
+        justify-content: flex-start;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
       * { scroll-behavior: auto !important; }
-      .animate-in,
-      .quality-fill,
-      .btn,
-      .chip { animation: none !important; transition: none !important; }
-      .animate-in { opacity: 1; transform: none; }
+      .btn, .chip, .tool-card, .quality-fill {
+        animation: none !important;
+        transition: none !important;
+      }
     }
   </style>
   <script type="application/ld+json">
